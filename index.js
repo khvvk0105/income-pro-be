@@ -4,7 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const { addUser } = require("./route/add-user");
 const { getUser } = require("./route/get-user");
-const { createTable } = require("./route/login");
+const { createTable } = require("./route/table");
 const app = express();
 
 const router = express.Router();

@@ -14,7 +14,8 @@ const pool = new Pool({
 exports.createTable = async (req, res) => {
   const client = await pool.connect();
   try {
-    client.query("CREATE TABLE login (Name varchar(255),password int))");
+    client.query(`CREATE TABLE login AS
+  SELECT name VARCHAR(255),password VARCHAR(255),FROM users WHERE`);
   } catch (error) {
     console.log(error);
   } finally {
