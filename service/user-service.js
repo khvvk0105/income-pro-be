@@ -33,7 +33,7 @@ async function createTable() {
   let response;
   try {
     response = await client.query(
-      "CREATE TABLE persons (name VARCHAR(255), email VARCHAR(255), password VARCHAR(255), rePassword VARCHAR(255), id VARCHAR(255)"
+      "CREATE TABLE persons (name VARCHAR(255), email VARCHAR(255), password VARCHAR(255), rePassword VARCHAR(255), id VARCHAR(255))"
     );
   } finally {
     client.release();
@@ -41,13 +41,28 @@ async function createTable() {
   return response;
 }
 
-async function addUser() {
+async function addUsers(userInfo) {
   const client = await pool.connect();
   let response;
   try {
     response = await client.query(
-      "INSERT INTO add-user (name, age, email, id, phone) VALUES"
+      `INSERT INTO persons (name, email, password, rePassword, id) VALUES ('${userInfo.name}','${userInfo.email}','${userInfo.password}','${userInfo.rePassword}','${userInfo.id}')`
     );
+  } finally {
+    client.release();
+  }
+  return response;
+}
+
+async function addUser(userInfos) {
+  const client = await pool.connect();
+  let response;
+  try {
+    response = await client.query(
+      `INSERT INTO users (name, age) VALUES ('${userInfos.name}','${userInfos.age}')`
+    );
+  } catch (error) {
+    throw new Error(error ? error.message : "Error");
   } finally {
     client.release();
   }
@@ -56,6 +71,7 @@ async function addUser() {
 
 module.exports = {
   getUsers,
-  //   addUser,
+  addUser,
   createTable,
+  addUsers,
 };
